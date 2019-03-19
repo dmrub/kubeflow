@@ -115,6 +115,15 @@ class KubeFormSpawner(KubeSpawner):
            formdata['memory'][0]):
                 options['memory'] = formdata['memory'][0].strip()
 
+        # Manage Shared Memory
+        shared_memory_readonly = False
+        if self._default_config_contains('sharedMemory'):
+            options['sharedMemory'] = form_defaults['sharedMemory']['value']
+            shared_memory_readonly = form_defaults['sharedMemory'].get('readOnly', False)
+        if (not shared_memory_readonly and 'sharedMemory' in formdata and
+           formdata['sharedMemory'][0]):
+                options['sharedMemory'] = formdata['sharedMemory'][0].strip()
+
         # Manage Workspace Volume
         options['workspaceVolume'] = {}
         ws_volume = {}
@@ -272,6 +281,10 @@ class KubeFormSpawner(KubeSpawner):
         return self.user_options['memory']
 
     @property
+    def shared_memory(self):
+        return self.user_options['sharedMemory']
+
+    @property
     def workspace_volume(self):
         return self.user_options["workspaceVolume"]
 
@@ -403,6 +416,18 @@ class KubeFormSpawner(KubeSpawner):
             self.volume_mounts.append({
                 'mountPath': volume['mountPath'],
                 'name': 'volume-%d-{username}' % idx
+            })
+
+        if self.shared_memory:
+             # maximum shared memory enabled
+            self.volumes.append({
+                'name': 'dshm',
+                'emptyDir': {'medium': 'Memory'}
+            })
+
+            self.volume_mounts.append({
+                'mountPath': '/dev/shm',
+                'name': 'dshm'
             })
 
     @gen.coroutine

@@ -125,6 +125,25 @@
         </div>
       {% endblock %}
 
+      {% block sharedMemory %}
+        <!-- Shared Memory -->
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <i class="fas fa-memory"></i>
+            <label>Shared Memory</label>
+          </div>
+          <div class="panel-body" style="padding: 10px;">
+            <input id='sharedMemory' name='sharedMemory'
+                   type="checkbox">
+            </input>
+            <label for="sharedMemory">Enable maximum shared memory available in /dev/shm</label>
+          </div>
+          <p class="text-muted" style="padding: 10px;">
+            When activated full RAM of a host is available as shared memory in /dev/shm.
+          </p>
+        </div>
+      {% endblock %}
+
       {% block workspaceVolume %}
         <!-- Workspace Volume -->
         <div class="panel panel-primary">

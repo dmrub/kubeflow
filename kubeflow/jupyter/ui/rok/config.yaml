@@ -38,6 +38,9 @@ spawnerFormDefaults:
     value: '1.0'
   memory:
     value: 1.0Gi
+  sharedMemory:
+    # Maximum shared memory for user's Notebook
+    value: false
   workspaceVolume:
     # Each Workspace Volume is declared with the following attributes:
     # Type, RokURL, Name, Size and MountPath

@@ -120,6 +120,21 @@ function setDefaultFormValues() {
     }
   }
 
+  if ('sharedMemory' in formDefaults) {
+    // Set default Memory, if specified
+    $('#sharedMemory').prop("checked", false);
+    if ('value' in formDefaults.sharedMemory) {
+      $('#sharedMemory').prop("checked", formDefaults.sharedMemory.value);
+    }
+    // Make SharedMemory field readonly if specified
+    if ('readOnly' in formDefaults.sharedMemory) {
+      $('#sharedMemory').attr({
+        'readonly': formDefaults.sharedMemory.readOnly,
+        'immutable': formDefaults.sharedMemory.readOnly
+      });
+    }
+  }
+
   $('#ws_name').attr('placeholder', username + '-workspace');
   $('#ws_mount_path').attr('placeholder', '/home/jovyan');
 
